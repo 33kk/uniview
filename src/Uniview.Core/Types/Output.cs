@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using JsonSubTypes;
 
-namespace Uniview.Types.Output {
+namespace Uniview.Core.Types.Output {
 	[JsonConverter(typeof(JsonSubtypes), "Type")]
 	public class UniviewPage {
 		[JsonProperty("version")]
