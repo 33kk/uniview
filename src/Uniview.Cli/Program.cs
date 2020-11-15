@@ -9,10 +9,12 @@ namespace Uniview.Cli {
 			await pm.Load();
 			var route = pm.FindRoute("/reddit/r");
 			if (route is PropRoute) {
-				Console.WriteLine(((PropRoute)route).Prop);
+				var propRoute = (PropRoute)route;
+				Console.WriteLine(propRoute.Prop);
 			}
 			else if (route is PathRoute) {
-				Console.WriteLine(((PathRoute)route).Path);
+				var pathRoute = (PathRoute)route;
+				Console.WriteLine(pathRoute.Path);
 			}
 		}
 	}

@@ -14,7 +14,10 @@ namespace Uniview.Core {
 		public bool Trailing { get; set; }
 		public string[] Query { get; set; }
 		public List<Route> Subroutes { get; set; }
+		public Func<Response> Handler { get; set; }
 	}
+
+	public class Response {}
 
 	public class PropRoute : Route {
 		public string Prop { get; set; }
@@ -53,15 +56,15 @@ namespace Uniview.Core {
 				bool found = false;
 				foreach (var route in currRoute.Subroutes) {
 					if (route is PathRoute) {
-						var r = (PathRoute)route;
-						if (r.Path == pathPart) {
+						var pathRoute = (PathRoute)route;
+						if (pathRoute.Path == pathPart) {
 							currRoute = route;
 							found = true;
 							continue;
 						}
 					} else if (route is PropRoute) {
-						var r = (PropRoute)route;
-						parameters[r.Prop] = pathPart;
+						var propRoute = (PropRoute)route;
+						parameters[propRoute.Prop] = pathPart;
 						currRoute = route;
 						found = true;
 						continue;
