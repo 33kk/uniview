@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Uniview.Core;
 using Uniview.Core.Types;
@@ -8,10 +9,13 @@ namespace Uniview.Plugin.Reddit {
 		public string Id { get => "reddit"; set => throw new NotImplementedException(); }
 		public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public Route Route { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public List<Route> Routes { get; set; } = new List<Route>() { new PropRoute() {
+			Prop = "r",
+			Trailing = true
+		}};
 
-		public Task Load() {
-			throw new NotImplementedException();
+		public async Task Load() {
+			System.Console.WriteLine("reddit load");
 		}
 
 		public Task Unload() {
