@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Uniview.Core;
+using Newtonsoft.Json;
 
 namespace Uniview.Cli {
 	class Program {
@@ -15,6 +16,8 @@ namespace Uniview.Cli {
 			else if (route is PathRoute) {
 				var pathRoute = (PathRoute)route;
 				Console.WriteLine(pathRoute.Path);
+				var r = await pathRoute.Handler();
+				Console.WriteLine(JsonConvert.SerializeObject(r));
 			}
 		}
 	}

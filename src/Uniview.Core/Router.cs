@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Uniview.Core {
 	public class RoutingException : Exception {
@@ -14,10 +15,8 @@ namespace Uniview.Core {
 		public bool Trailing { get; set; }
 		public string[] Query { get; set; }
 		public List<Route> Subroutes { get; set; }
-		public Func<Response> Handler { get; set; }
+		public Func<Task<Response>> Handler { get; set; }
 	}
-
-	public class Response {}
 
 	public class PropRoute : Route {
 		public string Prop { get; set; }
@@ -26,6 +25,8 @@ namespace Uniview.Core {
 	public class PathRoute : Route {
 		public string Path { get; set; }
 	}
+
+	public class Response {}
 
 	public class Router {
 		public Route Route { get; set; } = new PathRoute() {

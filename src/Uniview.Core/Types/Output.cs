@@ -2,6 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using JsonSubTypes;
+using System.Collections.Generic;
 
 namespace Uniview.Core.Types.Output {
 	[JsonConverter(typeof(JsonSubtypes), "Type")]
@@ -27,7 +28,7 @@ namespace Uniview.Core.Types.Output {
 		[JsonProperty("type")]
 		new public string Type { get; } = "posts";
 		[JsonProperty("data")]
-		public Pagination<Post[]> Data { get; set; }
+		public Pagination<List<Post>> Data { get; set; }
 	}
 	public class PostPage : UniviewPage {
 		[JsonProperty("type")]
@@ -39,7 +40,7 @@ namespace Uniview.Core.Types.Output {
 		[JsonProperty("type")]
 		new public string Type { get; } = "users";
 		[JsonProperty("data")]
-		public Pagination<User[]> Data { get; set; }
+		public Pagination<List<User>> Data { get; set; }
 	}
 	public class UserPage : UniviewPage {
 		[JsonProperty("type")]
@@ -51,13 +52,13 @@ namespace Uniview.Core.Types.Output {
 		[JsonProperty("type")]
 		new public string Type { get; } = "categories";
 		[JsonProperty("data")]
-		public Pagination<Group<Pagination<Post[]>>[]> Data { get; set; }
+		public Pagination<List<Group<Pagination<List<Post>>>>> Data { get; set; }
 	}
 	public class CategoryPage : UniviewPage {
 		[JsonProperty("type")]
 		new public string Type { get; } = "category";
 		[JsonProperty("data")]
-		public Group<Pagination<Post[]>> Data { get; set; }
+		public Group<Pagination<List<Post>>> Data { get; set; }
 	}
 	public class Group<T> {
 		[JsonProperty("id")]
@@ -83,9 +84,9 @@ namespace Uniview.Core.Types.Output {
 		[JsonProperty("updated")]
 		public DateTime Updated { get; set; }
 		[JsonProperty("authors")]
-		public User[] Authors { get; set; }
+		public List<User> Authors { get; set; }
 		[JsonProperty("tags")]
-		public Tag[] Tags { get; set; }
+		public List<Tag> Tags { get; set; }
 		[JsonProperty("likes")]
 		public int Likes { get; set; }
 		[JsonProperty("dislikes")]
@@ -101,9 +102,9 @@ namespace Uniview.Core.Types.Output {
 		[JsonProperty("license")]
 		public string License { get; set; }
 		[JsonProperty("attachments")]
-		public Attachment[] Attachments { get; set; }
+		public List<Attachment> Attachments { get; set; }
 		[JsonProperty("responses")]
-		public Post[] Responses { get; set; }
+		public List<Post> Responses { get; set; }
 	}
 	public class User {
 		[JsonProperty("id")]

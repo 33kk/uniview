@@ -27,10 +27,11 @@ namespace Uniview.Core {
 
 	public class PluginManager : Router {
 		public List<IPlugin> Plugins { get; set; } = new List<IPlugin>();
+
 		public async Task Load() {
-			var files = Directory.GetFiles(Path.Join(AppContext.BaseDirectory, "plugins"));
-			foreach (var file in files) {
-				var assembly = Assembly.LoadFile(file);
+			var dirs = Directory.GetDirectories(Path.Join(AppContext.BaseDirectory, "plugins"));
+			foreach (var dir in dirs) {
+				var assembly = Assembly.LoadFrom(Path.Join(dir, Path.GetFileName(dir) + ".dll"));
 				var type = assembly.GetTypes().Single(t => t.Name == "Plugin");
 				var plugin = (IPlugin)Activator.CreateInstance(type);
 				Plugins.Add(plugin);
