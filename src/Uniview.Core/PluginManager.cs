@@ -25,20 +25,38 @@ namespace Uniview.Core {
 		public Stream Data { get; set; }
 	}
 
-	public class PluginManager : Router {
+	public interface IPluginManager : IRouter {
+		public Task Load();
+		public Task Unload();
+		public List<IPlugin> Plugins { get; }
+	}
+
+	public class PluginManager : Router, IPluginManager {
+		private string pluginsPath;
+		
+		public PluginManager() {
+			pluginsPath = Path.Join(AppContext.BaseDirectory, "plugins");
+		}
+
+		public PluginManager(string pluginsPath) {
+			this.pluginsPath = pluginsPath;
+		}
+
 		public List<IPlugin> Plugins { get; set; } = new List<IPlugin>();
 
 		public async Task Load() {
-			var dirs = Directory.GetDirectories(Path.Join(AppContext.BaseDirectory, "plugins"));
+			var dirs = Directory.GetDirectories(pluginsPath);
 			foreach (var dir in dirs) {
 				var assembly = Assembly.LoadFrom(Path.Join(dir, Path.GetFileName(dir) + ".dll"));
 				var type = assembly.GetTypes().Single(t => t.Name == "Plugin");
 				var plugin = (IPlugin)Activator.CreateInstance(type);
+
 				Plugins.Add(plugin);
 				Route.Subroutes.Add(new PathRoute() {
 					Path = plugin.Id,
 					Subroutes = plugin.Routes
 				});
+
 				await plugin.Load();
 			}
 		}

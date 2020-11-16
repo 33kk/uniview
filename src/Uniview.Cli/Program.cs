@@ -8,7 +8,8 @@ namespace Uniview.Cli {
 		static async Task Main(string[] args) {
 			var pm = new PluginManager();
 			await pm.Load();
-			var route = pm.FindRoute("/reddit/r");
+			var routed = pm.FindRoute("/reddit/r");
+			var route = routed.route;
 			if (route is PropRoute) {
 				var propRoute = (PropRoute)route;
 				Console.WriteLine(propRoute.Prop);

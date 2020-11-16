@@ -28,13 +28,18 @@ namespace Uniview.Core {
 
 	public class Response {}
 
-	public class Router {
+	public interface IRouter {
+		public Route Route { get; }
+		public (Route route, Dictionary<string, string> parameters, List<string> trailing) FindRoute(string path);
+	}
+
+	public class Router : IRouter {
 		public Route Route { get; set; } = new PathRoute() {
 			Path = "/",
 			Subroutes = new List<Route>()
 		};
 
-		public Route FindRoute(string path) {
+		public (Route route, Dictionary<string, string> parameters, List<string> trailing) FindRoute(string path) {
 			if (this.Route == null)
 				throw new RoutingException("No routes");
 
@@ -78,7 +83,7 @@ namespace Uniview.Core {
 				}
 			}
 
-			return currRoute;
+			return (currRoute, parameters, trailing);
 		}
 	}
 }
